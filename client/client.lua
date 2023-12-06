@@ -19,7 +19,7 @@ CreateThread(function()
     local pid = PlayerId()
     local retval, entity = GetPlayerTargetEntity(pid)
 
-    if retval and cooldown == 0 then
+    if retval and cooldown == 0 and #(GetEntityCoords(PlayerPedId() - GetEntityCoords(entity)) < 2) then
       local model_hash = GetEntityModel(entity)
       if model_hash == 1462895032 then
         local promptGroup = PromptGetGroupIdForTargetEntity(entity)
