@@ -19,7 +19,9 @@ CreateThread(function()
     local pid = PlayerId()
     local retval, entity = GetPlayerTargetEntity(pid)
 
-    if retval and cooldown == 0 and #(GetEntityCoords(PlayerPedId() - GetEntityCoords(entity)) < 2) then
+    local distance = #(GetEntityCoords(PlayerPedId()) - GetEntityCoords(entity))
+
+    if retval and cooldown == 0 and distance < 2.0 then
       local model_hash = GetEntityModel(entity)
       if model_hash == 1462895032 then
         local promptGroup = PromptGetGroupIdForTargetEntity(entity)
@@ -29,6 +31,7 @@ CreateThread(function()
         end
         if PromptHasHoldModeCompleted(PedPrompt) then
           cooldown = 1
+          TaskGoToEntity(PlayerPedId(), entity, -1, 1.25, 0.5, 0, 0)
           Citizen.InvokeNative(0xCD181A959CFDD7F4, PlayerPedId(), entity, GetHashKey("Interaction_Dog_Patting"), 0, 1)
         end
       end
